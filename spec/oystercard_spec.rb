@@ -15,7 +15,7 @@ describe Oystercard do
     end
   end
 
-  context 'Card can make a journey' do
+  context 'Card can make a journey and' do
     before do
       subject.top_up(1)
     end
@@ -35,7 +35,7 @@ describe Oystercard do
       expect(subject.journeys).to be_empty
     end
 
-    it 'stores a journey' do
+    it 'stores the journey' do
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
       expect(subject.journeys).to include journey 
