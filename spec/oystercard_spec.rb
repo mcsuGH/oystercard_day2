@@ -1,10 +1,47 @@
 require 'oystercard'
 
 describe Oystercard do
+  let(:entry_station) { double :station }
+  let(:exit_station) { double :station }
+  let(:journey){ {entry_station: entry_station, exit_station: exit_station} }
 
-  it 'A new card should have a default balance of 0' do
-    expect(subject.balance).to eq 0
+  context 'Card with no balance' do
+    it 'A new card should have a default balance of 0' do
+      expect(subject.balance).to eq 0
+    end
+
+    it 'Check for minimum balance' do
+      expect { subject.touch_in(entry_station) }.to raise_error "Insufficient balance"
+    end
   end
+
+  context 'Card can make one journey' do
+    before do
+      subject.top_up(1)
+    end
+
+    it 'remembers the entry station' do
+      subject.touch_in(entry_station)
+      expect(subject.entry_station).to eq entry_station 
+    end  
+
+    it 'stores exit station' do 
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.exit_station).to eq exit_station
+    end
+
+    it 'has a empty list of journeys by default' do
+      expect(subject.journeys).to be_empty
+    end
+
+    it 'stores a journey' do
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.journeys).to include journey 
+    end
+  end
+
 
   describe '#top_up' do
     it { is_expected.to respond_to(:top_up).with(1).argument }
@@ -19,42 +56,29 @@ describe Oystercard do
   end
 
   describe '#touch_in' do
-    it 'remembers the entry station' do
-     station = double 
-     subject.top_up(1) 
-     subject.touch_in(station)
-     expect(subject.entry_station).to eq station 
-    end  
-    
-    it 'check for minimum balance' do
-      station = double 
-      expect { subject.touch_in(station) }.to raise_error "Insufficient balance"
+    before do
+      subject.top_up(1)
+      subject.touch_in(entry_station)
     end
 
     it 'Should be able to touch in' do
-      station = double
-      subject.top_up(1)
-      subject.touch_in(station)
       expect(subject.in_journey?).to eq true
     end
   end
 
   describe '#touch_out' do
-    it { is_expected.to respond_to (:touch_out) }
-
-    it 'Should be able to touch out' do
-      station = double
+    before do
       subject.top_up(1)
-      subject.touch_in(station)
-      subject.touch_out
+      subject.touch_in(entry_station)
+    end
+  
+    it 'Should be able to touch out' do
+      subject.touch_out(exit_station)
       expect(subject.in_journey?).to eq false
     end
 
     it 'Should take a minimum fare when touching out' do
-      station = double
-      subject.top_up(1)
-      subject.touch_in(station)
-      expect{ subject.touch_out }.to change{ subject.balance }.by -1
+      expect{ subject.touch_out(exit_station) }.to change{ subject.balance }.by -1
     end
   end
 
