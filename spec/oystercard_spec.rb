@@ -15,34 +15,6 @@ describe Oystercard do
     end
   end
 
-  context 'Card can make a journey and' do
-    before do
-      subject.top_up(1)
-    end
-
-    it 'remembers the entry station' do
-      subject.touch_in(entry_station)
-      expect(subject.journey.entry_station).to eq entry_station 
-    end  
-
-    it 'stores exit station' do 
-      subject.touch_in(entry_station)
-      subject.touch_out(exit_station)
-      expect(subject.journey.exit_station).to eq exit_station
-    end
-
-    it 'has a empty list of journeys by default' do
-      expect(subject.journey.journeys).to be_empty
-    end
-
-    it 'stores the journey' do
-      subject.touch_in(entry_station)
-      subject.touch_out(exit_station)
-      expect(subject.journey.journeys).to include journey 
-    end
-  end
-
-
   describe '#top_up' do
     it { is_expected.to respond_to(:top_up).with(1).argument }
 
@@ -51,7 +23,7 @@ describe Oystercard do
     end
 
     it 'Raises an error if the maximum balance is exceeded' do
-      expect { subject.top_up(1 + Oystercard::Limit) }.to raise_error "There is a max limit of £90"
+      expect { subject.top_up(1 + Oystercard::LIMIT) }.to raise_error "There is a max limit of £90"
     end
   end
 

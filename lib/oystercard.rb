@@ -2,8 +2,8 @@ require_relative 'journey'
 
 class Oystercard
   attr_reader :balance, :in_journey, :journey
-  Limit = 90
-  Min_charge = 1
+  LIMIT = 90
+  MIN_CHARGE = 1
 
   def initialize
     @balance = 0
@@ -11,21 +11,20 @@ class Oystercard
   end
 
   def top_up(money)
-    fail "There is a max limit of £#{Limit}" if @balance + money > Limit
+    fail "There is a max limit of £#{LIMIT}" if @balance + money > LIMIT
     @balance += money  
   end
 
   def touch_in(station)
-    fail "Insufficient balance" if @balance < Min_charge
-    @journey.entry_station = station
-    @journey.exit_station = nil
+    fail "Insufficient balance" if @balance < MIN_CHARGE
+    @journey.start(station)
     @in_journey = true  
   end
 
   def touch_out(station)
-    @journey.record_journey(station)
+    @journey.finish(station)
     @in_journey = false
-    deduct(Min_charge)
+    deduct(MIN_CHARGE)
   end
   
   def in_journey?
