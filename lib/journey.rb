@@ -4,15 +4,10 @@ class Journey
 
   PENALTY_FARE = 6
 
-  def initialize
-    @entry_station = nil
-    @exit_station = nil
+  def initialize(entry_station = nil)
     @journeys = []
-  end
-
-  def start(station)
     @exit_station = nil
-    @entry_station = station
+    @entry_station = entry_station
   end
 
   def finish(station)  
