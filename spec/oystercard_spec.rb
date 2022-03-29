@@ -22,23 +22,23 @@ describe Oystercard do
 
     it 'remembers the entry station' do
       subject.touch_in(entry_station)
-      expect(subject.entry_station).to eq entry_station 
+      expect(subject.journey.entry_station).to eq entry_station 
     end  
 
     it 'stores exit station' do 
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
-      expect(subject.exit_station).to eq exit_station
+      expect(subject.journey.exit_station).to eq exit_station
     end
 
     it 'has a empty list of journeys by default' do
-      expect(subject.journeys).to be_empty
+      expect(subject.journey.journeys).to be_empty
     end
 
     it 'stores the journey' do
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
-      expect(subject.journeys).to include journey 
+      expect(subject.journey.journeys).to include journey 
     end
   end
 
