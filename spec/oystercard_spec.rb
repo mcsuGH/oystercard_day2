@@ -3,7 +3,6 @@ require 'oystercard'
 describe Oystercard do
   let(:entry_station) { double :station }
   let(:exit_station) { double :station }
-  let(:journey){ {entry_station: entry_station, exit_station: exit_station} }
 
   context 'Card with no balance' do
     it 'A new card should have a default balance of 0' do

@@ -1,7 +1,7 @@
 require_relative 'journey'
 
 class Oystercard
-  attr_reader :balance, :journey
+  attr_reader :balance
   LIMIT = 90
   MIN_CHARGE = 1
 
