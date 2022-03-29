@@ -1,7 +1,7 @@
 require_relative 'journey'
 
 class Oystercard
-  attr_reader :balance, :in_journey, :journey
+  attr_reader :balance, :journey
   LIMIT = 90
   MIN_CHARGE = 1
 
@@ -18,12 +18,10 @@ class Oystercard
   def touch_in(station)
     fail "Insufficient balance" if @balance < MIN_CHARGE
     @journey.start(station)
-    @in_journey = true  
   end
 
   def touch_out(station)
     @journey.finish(station)
-    @in_journey = false
     deduct(MIN_CHARGE)
   end
   
