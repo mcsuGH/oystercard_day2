@@ -15,7 +15,7 @@ describe Oystercard do
     end
   end
 
-  context 'Card can make one journey' do
+  context 'Card can make a journey' do
     before do
       subject.top_up(1)
     end
@@ -56,12 +56,9 @@ describe Oystercard do
   end
 
   describe '#touch_in' do
-    before do
+    it 'Should be able to touch in' do
       subject.top_up(1)
       subject.touch_in(entry_station)
-    end
-
-    it 'Should be able to touch in' do
       expect(subject.in_journey?).to eq true
     end
   end
