@@ -27,7 +27,7 @@ class Oystercard
   end
   
   def in_journey?
-    @journeylog.current_journey[:entry_station].nil? ? false : true
+    !!@journeylog.current_journey[:entry_station]
   end
 end
 
