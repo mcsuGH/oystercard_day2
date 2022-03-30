@@ -9,8 +9,8 @@ describe JourneyLog do
 
   describe '#start' do
     it 'starts a journey' do
-      expect(journey_class).to receive(:new).with(station)
       subject.start(station)
+      expect(subject.current_journey[:entry_station]).to eq station
     end
 
     it 'records a journey' do
